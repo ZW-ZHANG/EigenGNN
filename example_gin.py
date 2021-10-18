@@ -50,7 +50,7 @@ import copy
 import scipy.sparse as sp
 from EigenGNN import Eigen
 
-def Data_augment(num, adj_list, y_list, seed = 0):   # randomly permutate adj_list to generate isomorphic graphs
+def data_augment(num, adj_list, y_list, seed = 0):   # randomly permutate adj_list to generate isomorphic graphs
     adj_list = adj_list[::15]                        # default 15 graphs per class, only need one
     y_list = y_list[::15]              
     adj_list_copy = copy.deepcopy(adj_list)
@@ -179,7 +179,7 @@ if __name__ == '__main__':
     y = torch.load(os.path.join(base_dir, 'Synthetic_Data', 'y_Kary_Deterministic_Graphs.pt'))
     
     # generate isomorphic graphs
-    sparse_adjmats, y = Data_augment(args['--data-per-class'], sparse_adjmats, y)
+    sparse_adjmats, y = data_augment(args['--data-per-class'], sparse_adjmats, y)
 
     num_graphs = len(sparse_adjmats)
     logging.info("{} Adjacency matrices were loaded".format(num_graphs))
@@ -191,14 +191,14 @@ if __name__ == '__main__':
     #
     if args['--model-type'] == 'regularGin':
         # X_all = torch.load(os.path.join(base_dir, 'Synthetic_Data', 'X_unity_Kary_Deterministic_Graphs.pt'))
-        #X_list = pickle.load(open(os.path.join(base_dir, 'Synthetic_Data', 'X_unity_list_Kary_Deterministic_Graphs.pkl'), 'rb'))
+        # X_list = pickle.load(open(os.path.join(base_dir, 'Synthetic_Data', 'X_unity_list_Kary_Deterministic_Graphs.pkl'), 'rb'))
         X_list = []
         n_nodes = sparse_adjmats[0].shape[0]
         for i in range(len(sparse_adjmats)):
             temp_feat = np.ones((n_nodes,1))
             X_list.append(torch.Tensor(temp_feat))
     elif args['--model-type'] == 'dataAugGin':
-        #X_list = pickle.load(open(os.path.join(base_dir, 'Synthetic_Data', 'X_eye_list_Kary_Deterministic_Graphs.pkl'), 'rb'))
+        # X_list = pickle.load(open(os.path.join(base_dir, 'Synthetic_Data', 'X_eye_list_Kary_Deterministic_Graphs.pkl'), 'rb'))
         X_list = []
         n_nodes = sparse_adjmats[0].shape[0]
         for i in range(len(sparse_adjmats)):
@@ -222,11 +222,11 @@ if __name__ == '__main__':
         for mat in sparse_adjmats:
             X_list.append(construct_onehot_ids(mat.shape[0], onehot_id_dim))
     elif args['--model-type'] == 'EigenGin':
-            X_list = []
-            np.random.seed(0)
-            for i in range(len(sparse_adjmats)):
-                temp_feat = Eigen(sparse_adjmats[i],args['--eigd'], adj_normalize = False, feature_abs = True)
-                X_list.append(torch.Tensor(temp_feat))
+        X_list = []
+        np.random.seed(0)
+        for i in range(len(sparse_adjmats)):
+            temp_feat = Eigen(sparse_adjmats[i],args['--eigd'], adj_normalize = False, feature_abs = True)
+            X_list.append(torch.Tensor(temp_feat))
     #
     #  split according to cv fold
     #
