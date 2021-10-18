@@ -1,5 +1,7 @@
 # code is adapted from https://github.com/tkipf/gcn/blob/master/gcn/train.py
 # make sure you can run gcn (i.e., train.py) and put example_gcn.py in the same folder before running the code
+# example usage: python example_gcn.py --method eigen --dataset cora
+# EigenGNN is applied in line 47-51
 
 from __future__ import division
 from __future__ import print_function

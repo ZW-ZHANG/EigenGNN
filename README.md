@@ -15,16 +15,21 @@ from EigenGNN import Eigen_multi
 features = Eigen_multi(adj, d, adj_normalize, feature_abs)
 ```
 
-An example to use EigenGNN with gcn being the GNN backbone is provided in `example_gcn.py` and can be run as:
+An example to use EigenGNN with GCN being the GNN backbone for node classification benchmark datasets (e.g., Cora, CiteSeer, PubMed) is provided in `example_gcn.py` and can be run as:
 ```bash
-python example_gcn.py --method eigen
+python example_gcn.py --method eigen --dataset cora
 ```
 for only using the eigenspace, or 
 ```bash
-python example_gcn.py --method feat_eigen
+python example_gcn.py --method feat_eigen --dataset cora
 ```
 for concatenating the eigenspace with input node features.
-  
+
+Another example to use EigenGNN with GIN being the GNN backbone for graph isomorphism test (i.e., graph classification) is provided in `example_gin.py` and can be run as:
+```bash
+python example_gin.py --cv-fold 0 --model-type EigenGin --num-mlp-hidden 1 --num-gnn-layers 1 --out-weight-dir dir1 --out-log-dir dir2
+```
+ 
 We will provide more examples in the near future.
 
 ### Cite
