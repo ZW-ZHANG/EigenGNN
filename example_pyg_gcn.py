@@ -49,7 +49,9 @@ elif args.use_eigengnn:
     else:
         data.x = new_feat
 # notice that the feature dimensionality may change and dataset.num_features is no longer valid
-
+# also notice that due to the design of PyG (at least for <= v1.7.2), you cannot easily set dataset attribute
+   # e.g., dataset[0].x = new_feat will not work correctly
+  
 class Net(torch.nn.Module):
     def __init__(self):
         super().__init__()
